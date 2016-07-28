@@ -1,13 +1,70 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.redhat.demo.arch.microservices</groupId>
-  <artifactId>mw-arch-parent-project</artifactId>
-  <version>1.0.1.Final</version>
-  <packaging>pom</packaging>
-  <modules>
-      <module>consumer-service</module>
-      <module>history-service</module>
-      <module>reader-service</module>
-      <module>sender-service</module>
-  </modules>
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.redhat.demo.arch.microservices</groupId>
+    <artifactId>mw-arch-parent-project</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <!-- Explicitly declaring the source encoding eliminates the following message: -->
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+            resources, i.e. build is platform dependent! -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- EAP component version management BOM -->
+        <version.jboss.bom.eap>7.0.1.GA</version.jboss.bom.eap>
+
+        <!-- WildFly Maven plug-in to deploy your WAR to a local JBoss EAP container -->
+        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
+
+        <!-- other plug-in versions -->
+        <version.ear.plugin>2.8</version.ear.plugin>
+        <version.ejb.plugin>2.3</version.ejb.plugin>
+        <version.war.plugin>2.1.1</version.war.plugin>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+    </properties>
+    <modules>
+        <module>consumer-service</module>
+        <module>history-service</module>
+        <module>reader-service</module>
+        <module>sender-service</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- JBoss distributes a complete set of Java EE APIs including a Bill 
+                of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection) of 
+                artifacts. We use this here so that we always get the correct versions of artifacts. 
+                Here we use the jboss-eap-javaee7 stack (you can read this as the JBoss stack of 
+                the Java EE APIs and related components. -->
+            <dependency>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>jboss-eap-javaee7</artifactId>
+                <version>${version.jboss.bom.eap}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>eap-runtime-artifacts</artifactId>
+                <version>${version.jboss.bom.eap}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.infinispan</groupId>
+                <artifactId>infinispan-bom</artifactId>
+                <version>8.3.0.Final-redhat-1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

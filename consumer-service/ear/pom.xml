@@ -6,7 +6,7 @@
     <parent>
         <artifactId>consumer</artifactId>
         <groupId>com.redhat.demo.arch.microservices</groupId>
-        <version>1.0.1.Final</version>
+        <version>2.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>consumer-ear</artifactId>

@@ -5,7 +5,6 @@ package com.redhat.demo.arch.microservices.history.web.rest.resources;
 
 import java.util.Map;
 
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -31,7 +30,7 @@ public class HistoryResource {
     @Inject
     private Logger LOG;
 
-    @EJB
+    @Inject
     private HistoryCacheServiceBean historyService;
 
     /**

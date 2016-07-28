@@ -47,7 +47,7 @@ public class HistoryCacheServiceBean {
     private CacheManagerServiceBean cacheManagerService;
 
     private RemoteCache<PayloadHistory, PayloadHistory> countersCache;
-    private QueryFactory<Query> qf;
+    private QueryFactory qf;
 
     /**
      * Inits the.
@@ -82,7 +82,7 @@ public class HistoryCacheServiceBean {
             GregorianCalendar calendar = new GregorianCalendar();
             calendar.add(Calendar.MINUTE, minutes * -1);
             Query query = null;
-            QueryBuilder<Query> qb = qf.from(PayloadHistory.class)//
+            QueryBuilder qb = qf.from(PayloadHistory.class)//
                     .select(Expression.property("payload"),
                             Expression.count("timestamp"))//
                     .having("timestamp").gte(calendar.getTime())//

@@ -5,7 +5,6 @@ package com.redhat.demo.arch.microservices.reader.web.rest.resources;
 
 import java.util.Map;
 
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -28,7 +27,7 @@ public class CountersResource {
     @Inject
     private Logger LOG;
 
-    @EJB
+    @Inject
     private CountersServiceBean countersService;
 
     /**
