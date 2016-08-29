@@ -63,7 +63,6 @@
                     </modules>
                     <archive>
                         <manifestEntries>
-                            <!-- HotRod client with Remote Query functionality -->
                             <Dependencies>org.slf4j export,org.jboss.logmanager export</Dependencies>
                         </manifestEntries>
                     </archive>

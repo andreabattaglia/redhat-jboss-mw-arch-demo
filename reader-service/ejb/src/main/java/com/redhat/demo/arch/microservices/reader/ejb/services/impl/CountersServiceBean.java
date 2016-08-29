@@ -4,6 +4,7 @@
 package com.redhat.demo.arch.microservices.reader.ejb.services.impl;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -43,6 +44,6 @@ public class CountersServiceBean {
     }
 
     public Map<String, Integer> getCounters() {
-        return countersCache.getAll(countersCache.keySet());
+        return new TreeMap<>(countersCache.getAll(countersCache.keySet()));
     }
 }

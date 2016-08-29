@@ -98,7 +98,7 @@ public class HistoryCacheServiceBean {
             }
 
         } catch (Exception e) {
-            LOG.error("Error find results by piva", e);
+            LOG.error("Error find results ", e);
         }
         return counters;
     }

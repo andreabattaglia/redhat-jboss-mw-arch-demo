@@ -9,7 +9,6 @@ import org.infinispan.protostream.annotations.ProtoDoc;
 import org.infinispan.protostream.annotations.ProtoField;
 import org.infinispan.protostream.annotations.ProtoMessage;
 
-@ProtoMessage
 @ProtoDoc("@Indexed")
 public class PayloadHistory {
 

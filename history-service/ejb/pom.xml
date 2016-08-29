@@ -75,23 +75,29 @@
             <artifactId>slf4j-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- Import the Infinispan client hotrod -->
+<!--         <dependency> -->
+<!--             <groupId>org.infinispan</groupId> -->
+<!--             <artifactId>infinispan-remote</artifactId> -->
+<!--         </dependency> -->
 
         <dependency>
             <groupId>org.infinispan</groupId>
             <artifactId>infinispan-client-hotrod</artifactId>
-            <scope>provided</scope>
+<!--             <scope>provided</scope> -->
         </dependency>
 
         <dependency>
             <groupId>org.infinispan</groupId>
             <artifactId>infinispan-remote-query-client</artifactId>
-            <scope>provided</scope>
+<!--             <scope>provided</scope> -->
         </dependency>
 
         <dependency>
             <groupId>org.infinispan</groupId>
             <artifactId>infinispan-query-dsl</artifactId>
-            <scope>provided</scope>
+<!--             <scope>provided</scope> -->
         </dependency>
 
     </dependencies>
@@ -127,11 +133,12 @@
                     <ejbVersion>3.1</ejbVersion>
                     <!-- this is false by default -->
                     <generateClient>true</generateClient>
-                    <!-- <archive> -->
-                    <!-- <manifestEntries> -->
-                    <!-- <Dependencies>deployment.clab-data-grid-ear.ear.clab-data-grid-ejb.jar,com.google.guava</Dependencies> -->
-                    <!-- </manifestEntries> -->
-                    <!-- </archive> -->
+                    <archive>
+                        <!-- HotRod client with Remote Query functionality -->
+<!--                         <manifestEntries> -->
+<!--                             <Dependencies>org.infinispan.commons:jdg-7.0 services, org.infinispan.client.hotrod:jdg-7.0 services, org.infinispan.query.remote.client:jdg-7.0 services, org.infinispan.query.dsl:jdg-7.0 services, org.jboss.remoting3, org.infinispan.protostream:jdg-7.0</Dependencies> -->
+<!--                         </manifestEntries> -->
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>

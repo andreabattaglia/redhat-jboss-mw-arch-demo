@@ -12,6 +12,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -52,8 +53,7 @@ public class HistoryQueryServiceBean {
             // + "history/rest/");
             URIBuilder builder = new URIBuilder();
             builder.setScheme("http").setHost(loadBalancerHost)
-                    .setPort(loadBalancerPort)
-                    .setPath("/history/rest/history")
+                    .setPort(loadBalancerPort).setPath("/history/rest/history")
                     .setParameter("minutes", Integer.toString(minutes));
             HttpGet request = new HttpGet(builder.build());
 
@@ -62,11 +62,15 @@ public class HistoryQueryServiceBean {
             int responseCode = response.getStatusLine().getStatusCode();
             if ((response.getStatusLine().getStatusCode() == 200)
                     || (response.getStatusLine().getStatusCode() == 204)) {
-                try (Scanner s = new Scanner(response.getEntity().getContent())
-                        .useDelimiter("\\A")) {
-                    output = s.hasNext() ? s.next() : "";
-                } catch (IOException e) {
 
+                HttpEntity entity = response.getEntity();
+                if (entity != null) {
+                    try (Scanner s = new Scanner(entity.getContent())
+                            .useDelimiter("\\A")) {
+                        output = s.hasNext() ? s.next() : "";
+                    } catch (IOException e) {
+
+                    }
                 }
             } else {
                 LOG.warn(
@@ -74,10 +78,8 @@ public class HistoryQueryServiceBean {
                         responseCode);
             }
             request.releaseConnection();
-        } catch (
-
-        Exception ex) {
-            LOG.error("ex Code sendGet: " + ex);
+        } catch (Exception ex) {
+            LOG.error("Exception caught contacting \"history\" service: ", ex);
             // LOG.error("url:" + url);
             // LOG.error("payload:" + payload);
         }

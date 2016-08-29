@@ -18,6 +18,7 @@ import javax.inject.Inject;
 
 import org.infinispan.client.hotrod.RemoteCache;
 import org.infinispan.client.hotrod.RemoteCacheManager;
+import org.infinispan.client.hotrod.configuration.ConfigurationBuilder;
 import org.infinispan.client.hotrod.marshall.ProtoStreamMarshaller;
 import org.infinispan.protostream.SerializationContext;
 import org.infinispan.protostream.annotations.ProtoSchemaBuilder;
@@ -54,20 +55,30 @@ public class CacheManagerServiceBean {
         properties.put("infinispan.client.hotrod.server_list",
                 System.getProperty("jboss.datagrid.topology"));
 
-        remoteCacheManager = new RemoteCacheManager(properties);
-        SerializationContext serCtx = ProtoStreamMarshaller
-                .getSerializationContext(remoteCacheManager);
-        configureProtobufMarshaller(serCtx);
-        remoteCacheManager.start();
+        ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+        configurationBuilder.withProperties(properties);
+        configurationBuilder//
+                .security()//
+                .authentication()//
+                .enable()//
+                .serverName("securedhotrodserver")//
+                .saslMechanism("DIGEST-MD5")//
+                .callbackHandler(new HotRodCallbackHandler());
+        remoteCacheManager = new RemoteCacheManager(
+                configurationBuilder.build());
+        configureProtobufMarshaller();
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("init() - end");
         }
     }
 
-    private void configureProtobufMarshaller(SerializationContext serCtx) {
+    private void configureProtobufMarshaller() {
+        SerializationContext serCtx = ProtoStreamMarshaller
+                .getSerializationContext(remoteCacheManager);
+
         // generate and register a Protobuf schema and marshallers based
-        // on Note class and the referenced classes (User class)
+        // on PayloadHistory class and the referenced classes (if any)
         ProtoSchemaBuilder protoSchemaBuilder = new ProtoSchemaBuilder();
         String generatedSchema;
         try {
@@ -76,7 +87,7 @@ public class CacheManagerServiceBean {
             // Memo class and register it with the SerializationContext of the
             // client
             generatedSchema = protoSchemaBuilder
-                    .fileName("history.proto")//
+                    .fileName("historypayload.proto")//
                     .packageName(PayloadHistory.class.getPackage().getName())//
                     .addClass(PayloadHistory.class)//
                     .build(serCtx);
@@ -85,7 +96,7 @@ public class CacheManagerServiceBean {
             RemoteCache<String, String> metadataCache = remoteCacheManager
                     .getCache(
                             ProtobufMetadataManagerConstants.PROTOBUF_METADATA_CACHE_NAME);
-            metadataCache.put("BD3.proto", generatedSchema);
+            metadataCache.put("historypayload.proto", generatedSchema);
 
             String errors = metadataCache
                     .get(ProtobufMetadataManagerConstants.ERRORS_KEY_SUFFIX);

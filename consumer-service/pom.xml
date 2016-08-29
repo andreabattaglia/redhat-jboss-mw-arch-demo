@@ -19,8 +19,13 @@
     <name>consumer</name>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>consumer</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <parent>
+        <groupId>com.redhat.demo.arch.microservices</groupId>
+        <artifactId>mw-arch-parent-project</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+    </parent>
 
     <url>http://jboss.org/jbossas</url>
     <licenses>
@@ -83,10 +88,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
-    <parent>
-        <groupId>com.redhat.demo.arch.microservices</groupId>
-        <artifactId>mw-arch-parent-project</artifactId>
-        <version>2.0.0-SNAPSHOT</version>
-    </parent>
 </project>

@@ -10,8 +10,7 @@
 
     <properties>
         <!-- Explicitly declaring the source encoding eliminates the following message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
-            resources, i.e. build is platform dependent! -->
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- EAP component version management BOM -->
@@ -39,11 +38,7 @@
     <dependencyManagement>
         <dependencies>
 
-            <!-- JBoss distributes a complete set of Java EE APIs including a Bill 
-                of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection) of 
-                artifacts. We use this here so that we always get the correct versions of artifacts. 
-                Here we use the jboss-eap-javaee7 stack (you can read this as the JBoss stack of 
-                the Java EE APIs and related components. -->
+            <!-- JBoss distributes a complete set of Java EE APIs including a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection) of artifacts. We use this here so that we always get the correct versions of artifacts. Here we use the jboss-eap-javaee7 stack (you can read this as the JBoss stack of the Java EE APIs and related components. -->
             <dependency>
                 <groupId>org.jboss.bom</groupId>
                 <artifactId>jboss-eap-javaee7</artifactId>
@@ -65,6 +60,64 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.infinispan</groupId>
+                <artifactId>infinispan-commons</artifactId>
+                <version>8.3.0.Final-redhat-1</version>
+                <!-- <scope>provided</scope> -->
+            </dependency>
+
+            <dependency>
+                <groupId>org.infinispan</groupId>
+                <artifactId>infinispan-client-hotrod</artifactId>
+                <version>8.3.0.Final-redhat-1</version>
+                <!-- <scope>provided</scope> -->
+            </dependency>
+
+            <dependency>
+                <groupId>org.infinispan</groupId>
+                <artifactId>infinispan-remote-query-client</artifactId>
+                <version>8.3.0.Final-redhat-1</version>
+                <!-- <scope>provided</scope> -->
+            </dependency>
+
+            <dependency>
+                <groupId>org.infinispan</groupId>
+                <artifactId>infinispan-query-dsl</artifactId>
+                <version>8.3.0.Final-redhat-1</version>
+                <!-- <scope>provided</scope> -->
+            </dependency>
+            <dependency>
+                <groupId>org.infinispan.protostream</groupId>
+                <artifactId>protostream</artifactId>
+                <version>3.0.5.Final-redhat-1</version>
+                <!-- <scope>provided</scope> -->
+            </dependency>
         </dependencies>
     </dependencyManagement>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- The WildFly plug-in deploys your ear to a local JBoss EAP container -->
+                <!-- Due to Maven's lack of intelligence with EARs we need to configure the WildFly Maven plug-in to skip deployment for all modules. We then enable it specifically in the ear module. -->
+<!--                 <plugin> -->
+<!--                     <groupId>org.wildfly.plugins</groupId> -->
+<!--                     <artifactId>wildfly-maven-plugin</artifactId> -->
+<!--                     <version>${version.wildfly.maven.plugin}</version> -->
+<!--                     <configuration> -->
+<!--                         <skip>true</skip> -->
+<!--                     </configuration> -->
+<!--                     <executions> -->
+<!--                         <execution> -->
+<!--                             <phase>package</phase> -->
+<!--                             <goals> -->
+<!--                                 <goal>deploy</goal> -->
+<!--                             </goals> -->
+<!--                         </execution> -->
+<!--                     </executions> -->
+<!--                 </plugin> -->
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>

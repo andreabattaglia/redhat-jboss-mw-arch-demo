@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package com.redhat.demo.arch.microservices.consumer.ejb.services.impl;
 
@@ -18,6 +18,7 @@ import javax.inject.Inject;
 
 import org.infinispan.client.hotrod.RemoteCache;
 import org.infinispan.client.hotrod.RemoteCacheManager;
+import org.infinispan.client.hotrod.configuration.ConfigurationBuilder;
 import org.slf4j.Logger;
 
 @Singleton
@@ -47,14 +48,23 @@ public class CacheManagerServiceBean {
         properties.put("infinispan.client.hotrod.server_list",
                 System.getProperty("jboss.datagrid.topology"));
 
-        remoteCacheManager = new RemoteCacheManager(properties);
-        remoteCacheManager.start();
+        ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+        configurationBuilder.withProperties(properties);
+        configurationBuilder//
+                .security()//
+                .authentication()//
+                .enable()//
+                .serverName("securedhotrodserver")//
+                .saslMechanism("DIGEST-MD5")//
+                .callbackHandler(new HotRodCallbackHandler());
+        remoteCacheManager = new RemoteCacheManager(
+                configurationBuilder.build(), true);
+        // remoteCacheManager.start();
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("init() - end");
         }
     }
-
 
     @PreDestroy
     private void destroy() {
